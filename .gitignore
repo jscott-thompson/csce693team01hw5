@@ -3,3 +3,4 @@ deps/*
 makedefs
 *.o
 *.a
+gameobject
