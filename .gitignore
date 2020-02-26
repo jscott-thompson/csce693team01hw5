@@ -1,0 +1,5 @@
+assets/*
+deps/*
+makedefs
+*.o
+*.a
