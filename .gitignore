@@ -4,3 +4,4 @@ makedefs
 *.o
 *.a
 gameobject
+README.md
