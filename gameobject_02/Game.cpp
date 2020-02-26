@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "SDL2/SDL_image.h"
+#include "sol/sol.hpp"
 
 #include "sdl_utils.hpp"
 #include "gameobjects/Chopper.hpp"
@@ -11,6 +12,7 @@
 
 SDL_Renderer* Game::renderer{};
 SDL_Window* Game::window{};
+sol::state Game::lua{};
 
 Game::Game(const char* title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
@@ -34,6 +36,16 @@ Game::Game(const char* title, int xpos, int ypos, int width, int height, bool fu
    } else {
       is_running = false;
    }
+
+   // Initialize Lua via sol and load the config file
+   try {
+      lua.open_libraries(sol::lib::base, sol::lib::package);
+   }
+   catch (sol::error& e) {
+      std::cerr << "Error initializing Lua!" << std::endl;
+      std::cerr << e.what() << std::endl;
+   }
+
 }
 
 Game::~Game()
