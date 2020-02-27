@@ -6,8 +6,7 @@
 
 class Tank: public GameObject {
 public:
-   Tank(const char* texture_sheet,
-        const float xpos, const float ypos,
+   Tank(const float xpos, const float ypos,
         const float xvel, const float yvel);
    ~Tank();
 
