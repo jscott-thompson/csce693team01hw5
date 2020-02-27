@@ -6,8 +6,7 @@
 
 class Chopper: public GameObject {
 public:
-   Chopper(const char* texture_sheet,
-           const float xpos, const float ypos,
+   Chopper(const float xpos, const float ypos,
            const float xvel, const float yvel);
    ~Chopper();
 
