@@ -3,3 +3,5 @@ deps/*
 makedefs
 *.o
 *.a
+gameobject
+README.md
