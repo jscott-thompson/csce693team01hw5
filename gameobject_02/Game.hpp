@@ -3,6 +3,7 @@
 #define __Game_HPP__
 
 #include "SDL2/SDL.h"
+#include "sol/sol.hpp"
 #include "GameObject.hpp"
 
 #include <vector>
@@ -24,6 +25,8 @@ public:
 
    static SDL_Renderer* renderer;
    static SDL_Window* window;
+
+   static sol::state lua;
 
 private:
    int counter{};
