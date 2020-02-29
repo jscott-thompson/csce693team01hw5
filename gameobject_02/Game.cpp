@@ -66,13 +66,38 @@ Game::~Game()
 
 void Game::load_level()
 {
-   auto chopper = std::make_unique<Chopper>(50.0f, 50.0f, 0.5f, 0.5f);
-   auto tank = std::make_unique<Tank>(0.0f, 0.0f, 0.5f, 0.5f);
-   auto pacman = std::make_unique<Pacman>(100.0f, 100.0f, 0.5f, 0.5f);
+   //load the gameobj table from the config file
+   sol::table t = lua["gameobjs"];
+   
+   //iterate over each player in the table
+   for(const auto& key_value_pair : t) {
+      //the key represents the player name
+      sol::object key = key_value_pair.first;
 
-   game_objs.emplace_back(std::move(chopper));
-   game_objs.emplace_back(std::move(tank));
-   game_objs.emplace_back(std::move(pacman));
+      //use the key to get the table for that player
+      sol::table player = lua["gameobjs"][key.as<std::string>()];
+
+      //extract the needed attributes from the table
+      std::string kind = static_cast<std::string>(player["kind"]);
+      float xpos = static_cast<float>(player["xpos"]);
+      float ypos = static_cast<float>(player["ypos"]); 
+      float xvel = static_cast<float>(player["xvel"]);
+      float yvel = static_cast<float>(player["yvel"]);
+      
+      //determine what type of game object to create and then add then to the game objects vector
+      if(kind.compare("chopper") == 0) {
+         auto chopper = std::make_unique<Chopper>(xpos, ypos, xvel, yvel);
+         game_objs.emplace_back(std::move(chopper));
+      } else if(kind.compare("tank") == 0) {
+         auto tank = std::make_unique<Tank>(xpos, ypos, xvel, yvel);
+         game_objs.emplace_back(std::move(tank));
+      } else if(kind.compare("pacman") == 0) {
+         auto pacman = std::make_unique<Pacman>(xpos, ypos, xvel, yvel);
+         game_objs.emplace_back(std::move(pacman));
+      } else {
+         std::cerr << "Unknown type\n";
+      }
+   } 
 }
 
 void Game::handle_events()
